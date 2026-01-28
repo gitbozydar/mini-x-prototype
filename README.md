@@ -438,7 +438,7 @@ Pozwala na przeglądanie postów, dodawanie nowych z walidacją w czasie rzeczyw
 
 Aplikacja dostępna online przez hosting Vercel:
 
-[Mini X](https://mini-x-prototype.vercel.app/)
+[🔗 Otwórz Mini X](https://mini-x-eta.vercel.app)
 
 LUB
 
