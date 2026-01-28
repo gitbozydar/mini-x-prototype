@@ -1,18 +1,32 @@
 import prisma from "@/lib/prisma";
 
 export const GET = async () => {
-  const posts = await prisma.post.findMany({ orderBy: { createdAt: "desc" } });
+  const posts = await prisma.post.findMany({
+    orderBy: { createdAt: "desc" },
+    include: { author: true },
+  });
   return new Response(JSON.stringify(posts));
 };
 
 export const POST = async (req: Request) => {
   try {
-    const { author, content } = await req.json();
+    const { title, content, authorId } = await req.json();
+
     const post = await prisma.post.create({
-      data: { author, content },
+      data: {
+        title,
+        content,
+        author: { connect: { id: authorId } },
+      },
+      include: { author: true },
     });
+
     return new Response(JSON.stringify(post));
   } catch (error) {
-    return new Response(JSON.stringify({ error: error }));
+    console.error(error);
+    return new Response(
+      JSON.stringify({ error: "Nie udało się dodać posta" }),
+      { status: 500 },
+    );
   }
 };

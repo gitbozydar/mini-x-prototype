@@ -1,9 +1,8 @@
 "use client";
 
-import Link from "next/link";
+import { AuthProvider } from "@/lib/context/AuthContext";
+import Navbar from "./components/navbar";
 import "./globals.css";
-import { Button } from "@mui/material";
-import AddIcon from "@mui/icons-material/Add";
 
 export default function RootLayout({
   children,
@@ -13,20 +12,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <nav className="p-5 flex gap-5 items-center bg-black border-b border-b-gray-900">
-          <Link href="/" className="font-medium ">
-            Strona główna
-          </Link>
-          <Link href="/feed" className="font-medium">
-            Posty
-          </Link>
-          <Link href="/add-post" className="font-medium">
-            <Button size="small" variant="outlined" color="success">
-              <AddIcon />
-            </Button>
-          </Link>
-        </nav>
-        {children}
+        <AuthProvider>
+          <Navbar />
+          {children}
+        </AuthProvider>
       </body>
     </html>
   );

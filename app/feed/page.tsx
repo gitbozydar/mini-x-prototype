@@ -5,9 +5,13 @@ import { useEffect, useState } from "react";
 
 interface Post {
   id: number;
-  author: string;
+  title: string;
   content: string;
   createdAt: string;
+  author: {
+    id: number;
+    username: string;
+  };
 }
 
 const Feed = () => {
@@ -18,7 +22,7 @@ const Feed = () => {
   const loadPosts = async () => {
     setLoading(true);
     try {
-      const response = await fetch(API_URL);
+      const response = await fetch(API_URL, { cache: "no-store" });
       const data: Post[] = await response.json();
       setPosts(data);
     } catch (err) {
@@ -34,22 +38,20 @@ const Feed = () => {
 
   return (
     <div className="flex flex-col justify-center items-center w-full p-12">
-      {loading && (
-        <p>
-          <CircularProgress color="inherit" />
-        </p>
-      )}
+      {loading && <CircularProgress color="inherit" />}
 
       {!loading && posts.length === 0 && <p>Brak postów.</p>}
 
-      <div className="flex flex-col  w-full max-w-xl gap-10">
-        {posts.map(({ author, content, createdAt, id }) => (
-          <div key={id} className="border rounded-2xl border-gray-900 ">
+      <div className="flex flex-col w-full max-w-xl gap-10">
+        {posts.map(({ author, title, content, createdAt, id }) => (
+          <div key={id} className="border rounded-2xl border-gray-900">
             <div className="border-b border-gray-900 p-3 flex items-center gap-2">
-              <Avatar /> {author}
+              <Avatar />
+              Dodano przez: {author.username}
             </div>
             <section className="text-sm p-3 border-b border-gray-900">
-              {content}
+              <b>{title}</b>
+              <p>{content}</p>
             </section>
             <p className="p-3 text-sm">
               Dodano: {new Date(createdAt).toLocaleDateString()}
@@ -60,4 +62,5 @@ const Feed = () => {
     </div>
   );
 };
+
 export default Feed;

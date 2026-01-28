@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 export const PostSchema = z.object({
-  author: z.string().min(2, "Zbyt krótka nazwa.").max(30, "Za długa nazwa."),
+  title: z.string().min(2, "Zbyt krótki tytuł.").max(30, "Zbyt długi tytuł."),
 
   content: z
     .string()
